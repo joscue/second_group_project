@@ -10,10 +10,16 @@ import os
 
 @app.route('/new/vid')
 def input_vid_data():
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     return render_template('create_vid.html')
 
 @app.route('/create/vid/', methods=["POST"])
 def create_vid_data():
+    if 'user_id' not in session:
+        return redirect('/dashboard')
+    if not Video.validate_vid(request.form):
+        return redirect('/new/vid')
     print(session['user_id'])
     v_data = {
         'title': request.form['title'],
@@ -55,6 +61,8 @@ def allowed_file(file):
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     if'video' not in request.files:
         return 'No video file found'
     video = request.files['video']
@@ -74,11 +82,16 @@ def upload():
 
 @app.route('/update/vdata/<int:num>')
 def update_d(num):
-
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     return render_template('update_vid.html', id = num)
 
 @app.route('/update/data/<int:num>', methods=['POST'])
 def update_data(num):
+    if 'user_id' not in session:
+        return redirect('/dashboard')
+    if not Video.validate_vid(request.form):
+        return redirect('/update/vdata/' + str(num))
     data = {
         'id': num,
         'title': request.form['title'],
@@ -91,6 +104,8 @@ def update_data(num):
 
 @app.route('/update/<int:num>', methods=['POST'])
 def update_vid(num):
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     session.pop('video_id')
     if'video' not in request.files:
         return 'No video file found'
@@ -108,6 +123,10 @@ def update_vid(num):
 
 @app.route('/delete/<int:id>')
 def delete_vid(id):
+    if 'video_id' in  session:
+        session.pop('video_id')
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     Video.delete({'id':id})
     return redirect ('/dashboard')
 
@@ -116,7 +135,10 @@ def delete_vid(id):
 
 @app.route('/video/<int:num>')
 def prev(num):
-
+    if 'video_id' in  session:
+        session.pop('video_id')
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     return render_template('preview.html', video = Video.get_by_id({'id':num}), comments = Comment.get_all({'id':num}), video_links = Video.get_all())
 
 @app.route('/dashboard')
@@ -127,6 +149,8 @@ def dash():
 
 @app.route('/categories/<string:cat>')
 def category_search(cat):
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     if cat == 'boats':
         video = Video.get_v_boats()
     if cat == 'bushcraft':
@@ -166,4 +190,6 @@ def category_search(cat):
 
 @app.route("/profile")
 def profile():
+    if 'user_id' not in session:
+        return redirect('/dashboard')
     return render_template('profile.html', user = User.get_by_id({'id':session['user_id']}), videos = Video.get_u_vids({'user_id':session['user_id']}))

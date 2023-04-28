@@ -5,12 +5,20 @@ from flask_app.models.comment import Comment
 
 @app.route('/start/comment/<int:id>/<int:cid>')
 def start_comment(id,cid):
+    if 'video_id' in  session:
+        session.pop('video_id')
+    if 'user_id' not in session:
+        return redirect('/')
     video = str(id)
     session['comment_id'] = cid
     return redirect('/video/' + video)
 
 @app.route('/create/comment/<int:id>', methods=['POST'])
 def create_comment(id):
+    if 'video_id' in  session:
+        session.pop('video_id')
+    if 'user_id' not in session:
+        return redirect('/')
     data = {
         'comment': request.form['comment'],
         'comment_id': int(request.form['comment_id']),

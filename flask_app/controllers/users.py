@@ -57,11 +57,3 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/search', methods=['POST'])
-def search():
-    print ("hey its working----------------->>>>>>>>>>>>>")
-    print (request.form["search_input"])
-    result = User.get_url_by_keyword(request.form["search_input"])
-    print (result)
-    return redirect("/")
-

@@ -7,6 +7,12 @@
     <title>video</title>
 </head>
 <body>
+    <nav style="background-color:teal; color:white;" id="navbar">
+        <h1><a href="http://localhost:5000/dashboard">HowHub</a></h1>
+        <a href="http://localhost:5000/new/vid">Add Video</a>
+        <a href="http://localhost:5000/profile">Profile</a>
+        <a href="http://localhost:5000/logout">logout</a>
+    </nav>
     <div>
         <video width="65%" controls>
             <source src="/static/videos/{{video.id}}.mp4">
