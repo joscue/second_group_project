@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>First name:</p>
+    <p>{{user.first_name}}</p>
+    <p>lLast name:</p>
+    <p>{{user.last_name}}</p>
+    <p>Birthday:</p>
+    <p>{{user.birthday}}</p>
+    
+
+    <p>videos</p>
+    <ul>
+        <li>
+            <div>
+                {% for video in videos %}
+                    <a href="http://localhost:5000/video/{{video.id}}"><img src="/static/images/{{video.id}}.jpg" alt="{{video.title}} no image!!  ">{{video.title}}</a>
+                    <a href="http://localhost:5000/update/vdata/{{video.id}}">Update</a>
+                {% endfor %}
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
