@@ -298,10 +298,15 @@ class Video:
 #validations//////////////////////////////////////////////////////////////
     @staticmethod
     def validate_vid(data):
-        valid =  True
+        is_valid =  True
         if len(data['title']) < 4:
-            flash("")
+            flash("minimum of four characters for title")
             is_valid = False
+        if len(data['description']) < 3:
+            flash("minimum of four characters for description")
+            is_valid = False
+        return is_valid
+
 
     @staticmethod
     def make_thumbnail(data):

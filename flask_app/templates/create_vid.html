@@ -7,7 +7,20 @@
     <title>Document</title>
 </head>
 <body>
+    <nav style="background-color:teal; color:white;" id="navbar">
+        <h1><a href="http://localhost:5000/dashboard">HowHub</a></h1>
+        <a href="http://localhost:5000/new/vid">Add Video</a>
+        <a href="http://localhost:5000/profile">Profile</a>
+        <a href="http://localhost:5000/logout">logout</a>
+    </nav>
     <form action="/create/vid", method="POST">
+        {% with messages = get_flashed_messages() %}    
+            {% if messages %}                        
+                {% for message in messages %}     
+                    <p>{{message}}</p>          
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <p>title</p>
         <input type="text" name="title">
         <p>description</p>
